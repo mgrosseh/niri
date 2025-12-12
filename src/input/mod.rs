@@ -2374,6 +2374,9 @@ impl State {
                     self.niri.queue_redraw_mru_output();
                 }
             }
+            Action::ToggleRow => {
+                self.niri.layout.toggle_row_on_window(None);
+            }
         }
     }
 

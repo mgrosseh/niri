@@ -223,6 +223,8 @@ struct TileData {
     /// This is window height, not tile height, so it excludes tile decorations.
     height: WindowHeight,
 
+    same_row: bool,
+
     /// Cached actual size of the tile.
     size: Size<f64, Logical>,
 
@@ -3781,6 +3783,30 @@ impl<W: LayoutElement> ScrollingSpace<W> {
             );
         }
     }
+    
+    pub(crate) fn toggle_row_on_window(&mut self, window: Option<&W::Id>) {
+        if self.columns.is_empty() {
+            return;
+        }
+
+        let (col, tile_idx) = if let Some(window) = window {
+            self.columns
+                .iter_mut()
+                .find_map(|col| {
+                    col.tiles
+                        .iter()
+                        .position(|tile| tile.window().id() == window)
+                        .map(|tile_idx| (col, Some(tile_idx)))
+                })
+                .unwrap()
+        } else {
+            (&mut self.columns[self.active_column_idx], None)
+        };
+
+        col.toggle_row_on_window(tile_idx);
+
+        cancel_resize_for_column(&mut self.interactive_resize, col);
+    }
 }
 
 impl ViewOffset {
@@ -3884,6 +3910,7 @@ impl TileData {
     pub fn new<W: LayoutElement>(tile: &Tile<W>, height: WindowHeight) -> Self {
         let mut rv = Self {
             height,
+            same_row: false,
             size: Size::default(),
             interactively_resizing_by_left_edge: false,
         };
@@ -5199,6 +5226,7 @@ impl<W: LayoutElement> Column<W> {
         // Chain with a dummy value to be able to get one past all tiles' Y.
         let dummy = TileData {
             height: WindowHeight::auto_1(),
+            same_row: false,
             size: Size::default(),
             interactively_resizing_by_left_edge: false,
         };
@@ -5434,6 +5462,14 @@ impl<W: LayoutElement> Column<W> {
                  (total height {total_height} > max height {max_height})"
             );
         }
+    }
+    
+    fn toggle_row_on_window(&mut self, tile_idx: Option<usize>) {
+        let tile_idx = tile_idx.unwrap_or(self.active_tile_idx);
+
+        self.data[tile_idx].same_row ^= true;
+        self.is_pending_maximized = false;
+        self.update_tile_sizes(true);
     }
 }
 

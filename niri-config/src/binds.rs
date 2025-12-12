@@ -385,6 +385,7 @@ pub enum Action {
     MruSetScope(MruScope),
     #[knuffel(skip)]
     MruCycleScope,
+    ToggleRow,
 }
 
 impl From<niri_ipc::Action> for Action {

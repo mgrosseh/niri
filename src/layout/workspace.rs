@@ -2040,6 +2040,16 @@ impl<W: LayoutElement> Workspace<W> {
             }
         }
     }
+    
+    pub(crate) fn toggle_row_on_window(&mut self, window: Option<&W::Id>) {
+        if window.map_or(self.floating_is_active.get(), |id| {
+            self.floating.has_window(id)
+        }) {
+            return;
+        } else {
+            self.scrolling.toggle_row_on_window(window);
+        }
+    }
 }
 
 pub(super) fn compute_working_area(output: &Output) -> Rectangle<f64, Logical> {
