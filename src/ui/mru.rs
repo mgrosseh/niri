@@ -1851,9 +1851,9 @@ fn make_preset_opened_binds() -> Vec<Bind> {
     push(Keysym::Escape, Action::MruCancel);
     push(Keysym::Return, Action::MruConfirm);
     push(Keysym::space, Action::MruConfirm);
-    push(Keysym::a, Action::MruSetScope(MruScope::All));
-    push(Keysym::o, Action::MruSetScope(MruScope::Output));
-    push(Keysym::w, Action::MruSetScope(MruScope::Workspace));
+    // push(Keysym::a, Action::MruSetScope(MruScope::All));
+    // push(Keysym::o, Action::MruSetScope(MruScope::Output));
+    // push(Keysym::w, Action::MruSetScope(MruScope::Workspace));
     push(Keysym::s, Action::MruCycleScope);
 
     // Leave these in since they are the most expected and generally uncontroversial keys, so that
