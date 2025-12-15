@@ -916,6 +916,24 @@ pub enum Action {
     /// Can be useful for scripts changing the config file, to avoid waiting the small duration for
     /// niri's config file watcher to notice the changes.
     LoadConfigFile {},
+    /// Move the focused window to a new workspace inserted above.
+    MoveWindowToNewWorkspaceUp {
+        /// Whether the focus should follow the target workspace.
+        ///
+        /// If `true` (the default), the focus will follow the window to the new workspace. If
+        /// `false`, the focus will remain on the original workspace.
+        #[cfg_attr(feature = "clap", arg(long, action = clap::ArgAction::Set, default_value_t = true))]
+        focus: bool,
+    },
+    /// Move the focused window to a new workspace inserted below.
+    MoveWindowToNewWorkspaceDown {
+        /// Whether the focus should follow the target workspace.
+        ///
+        /// If `true` (the default), the focus will follow the window to the new workspace. If
+        /// `false`, the focus will remain on the original workspace.
+        #[cfg_attr(feature = "clap", arg(long, action = clap::ArgAction::Set, default_value_t = true))]
+        focus: bool,
+    },
 }
 
 /// Change in window or column size.
