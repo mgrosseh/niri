@@ -385,6 +385,8 @@ pub enum Action {
     MruSetScope(MruScope),
     #[knuffel(skip)]
     MruCycleScope,
+    MoveWindowToNewWorkspaceDown(#[knuffel(property(name = "focus"), default = true)] bool),
+    MoveWindowToNewWorkspaceUp(#[knuffel(property(name = "focus"), default = true)] bool),
 }
 
 impl From<niri_ipc::Action> for Action {
