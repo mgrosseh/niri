@@ -4906,6 +4906,22 @@ impl<W: LayoutElement> Layout<W> {
     pub fn is_overview_open(&self) -> bool {
         self.overview_open
     }
+
+
+    pub fn move_to_new_workspace_down(&mut self, focus: bool) {
+        let Some(monitor) = self.active_monitor() else {
+            return;
+        };
+        monitor.add_workspace_at(monitor.active_workspace_idx + 1); 
+        monitor.move_to_workspace_down(focus);
+    }
+    pub fn move_to_new_workspace_up(&mut self, focus: bool) {
+        let Some(monitor) = self.active_monitor() else {
+            return;
+        };
+        monitor.add_workspace_at(monitor.active_workspace_idx); 
+        monitor.move_to_workspace_up(focus);
+    }
 }
 
 impl<W: LayoutElement> Default for MonitorSet<W> {
