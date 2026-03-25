@@ -2381,6 +2381,18 @@ impl State {
                     self.niri.queue_redraw_mru_output();
                 }
             }
+            Action::MoveWindowToNewWorkspaceDown(focus) => {
+                self.niri.layout.move_to_new_workspace_down(focus);
+                self.maybe_warp_cursor_to_focus();
+                // FIXME: granular
+                self.niri.queue_redraw_all();
+            }
+            Action::MoveWindowToNewWorkspaceUp(focus) => {
+                self.niri.layout.move_to_new_workspace_up(focus);
+                self.maybe_warp_cursor_to_focus();
+                // FIXME: granular
+                self.niri.queue_redraw_all();
+            }
         }
     }
 
