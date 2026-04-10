@@ -942,6 +942,7 @@ pub enum Action {
         /// If unset, reloads the current config file.
         #[cfg_attr(feature = "clap", arg(long))]
         path: Option<String>,
+    },
     /// Move the focused window to a new workspace inserted above.
     MoveWindowToNewWorkspaceUp {
         /// Whether the focus should follow the target workspace.
